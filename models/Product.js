@@ -1,21 +1,22 @@
-import { sequelize } from "../config/dbConfig";
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/dbConfig.js";
 const Product = sequelize.define("product", {
   id: {
-    type: DataType.INTEGER,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
   },
   title: {
-    type: DataType.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   description: {
-    type: DataType.TEXT,
+    type: DataTypes.TEXT,
     allNull: false,
   },
   price: {
-    type: DataType.FLOAT,
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
 });

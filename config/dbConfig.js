@@ -1,4 +1,6 @@
+import dotenv from "dotenv";
 import { Sequelize } from "sequelize";
+dotenv.config();
 
 const logging = () => (process.env.NODE_ENV === "development" ? true : false);
 const DB_NAME = process.env.DB_NAME;
