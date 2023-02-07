@@ -47,6 +47,37 @@ export default class ProductsController {
       res.status(500).json({ error: error.message });
     }
   }
-  async updateOne(req, res) {}
+  async updateOne(req, res) {
+    const id = req.params.id;
+    const { body } = req;
+
+    const fields = ["title", "description", "price"];
+    let error = "";
+    try {
+      const product = await Product.findByPk(id);
+
+      if (product) {
+        const bodyField = Object.keys(body);
+        for (let item of bodyField) {
+          if (fields.includes(item) && body[item].length > 2) {
+            product[item] = body[item];
+          } else {
+            error = "Entrer les champs requis";
+            break;
+          }
+        }
+        if (error) {
+          return res.status(400).json({ error });
+        }
+        await product.save();
+        return res
+          .status(201)
+          .json({ error: null, message: "Produit modifier avec succées" });
+      }
+      return res.status(404).json({ error: "Le produit n'existe pas" });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
   async deleteOne(req, res) {}
 }
