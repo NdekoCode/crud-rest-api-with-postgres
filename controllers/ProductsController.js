@@ -79,5 +79,18 @@ export default class ProductsController {
       return res.status(500).json({ error: error.message });
     }
   }
-  async deleteOne(req, res) {}
+  async deleteOne(req, res) {
+    const id = req.params.id;
+    try {
+      const product = await Product.findByPk(id);
+      if (product) {
+        await Product.destroy({ where: { id } });
+        return res.status(204).json({ error: "Produit supprimer avec succés" });
+      }
+
+      return res.status(404).json({ error: "Produit n'existe pas" });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
