@@ -1,7 +1,10 @@
 import { addProductValidation } from "../libs/validations.js";
 import Product from "../models/Product.js";
 export default class ProductsController {
-  async getAll(req, res) {}
+  async getAll(req, res) {
+    const products = await Product.findAll();
+    return res.status(200).json(products || []);
+  }
   async getOne(req, res) {
     console.log(Product);
   }
