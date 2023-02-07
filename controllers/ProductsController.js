@@ -2,11 +2,21 @@ import { addProductValidation } from "../libs/validations.js";
 import Product from "../models/Product.js";
 export default class ProductsController {
   async getAll(req, res) {
-    const products = await Product.findAll();
+    // On recupere tout saut le champ updatedAt et createdAt
+    const products = await Product.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
     return res.status(200).json(products || []);
   }
   async getOne(req, res) {
-    console.log(Product);
+    const id = req.params.id;
+    const product = await Product.findByPk(id, {
+      attributes: { exclude: ["updatedAt"] },
+    });
+    if (product) {
+      return res.status(200).json(product);
+    }
+    return res.status(404).json({ error: "Le produit est introuvable" });
   }
   async createOne(req, res) {
     const bodyRequest = req.body;
